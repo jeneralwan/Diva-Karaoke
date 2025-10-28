@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Diva Karaoke</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-microphone"></i>
+                    <span>Diva Karaoke</span>
+                </a>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="booking.html">Book Now</a></li>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="booking-details.html">Booking</a></li>
+                        <li><a href="admin.html" class="active">Admin</a></li>
+                    </ul>
+                </nav>
+                <div class="auth-buttons">
+                    <a href="#" class="btn btn-outline">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Admin Dashboard -->
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="admin-sidebar">
+            <div class="admin-logo">
+                <h2><i class="fas fa-crown"></i> Admin Panel</h2>
+            </div>
+            <ul class="admin-menu">
+                <li><a href="#" data-section="dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="#" data-section="bookings"><i class="fas fa-calendar-check"></i> Bookings</a></li>
+                <li><a href="#" data-section="orders"><i class="fas fa-utensils"></i> Order Tracking</a></li>
+                <li><a href="#" data-section="rooms"><i class="fas fa-door-open"></i> Rooms</a></li>
+                <li><a href="#" data-section="customers"><i class="fas fa-users"></i> Customers</a></li>
+                <li><a href="#" data-section="reports"><i class="fas fa-chart-bar"></i> Reports</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="admin-content">
+            <!-- Dashboard Section -->
+            <div id="dashboard" class="admin-section">
+                <div class="admin-header">
+                    <h1>Dashboard Overview</h1>
+                    <div class="admin-actions">
+                        <span>Welcome, Admin</span>
+                    </div>
+                </div>
+
+                <div class="admin-stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-bookings">0</div>
+                        <div class="stat-label">Total Bookings</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-revenue">$0.00</div>
+                        <div class="stat-label">Total Revenue</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="active-rooms">0</div>
+                        <div class="stat-label">Active Rooms</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-customers">0</div>
+                        <div class="stat-label">Total Customers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="pending-orders">0</div>
+                        <div class="stat-label">Pending Orders</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="active-orders">0</div>
+                        <div class="stat-label">Active Orders</div>
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <h3>Recent Bookings</h3>
+                    <a href="#" class="btn btn-primary">View All</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Customer</th>
+                                <th>Room</th>
+                                <th>Date & Time</th>
+                                <th>Duration</th>
+                                <th>Guests</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookings-tbody">
+                            <!-- Bookings will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Bookings Section -->
+            <div id="bookings" class="admin-section" style="display: none;">
+                <div class="section-header">
+                    <h3>Manage Bookings</h3>
+                    <div class="filter-options">
+                        <select class="form-control" id="booking-status-filter" style="width: auto;">
+                            <option value="all">All Status</option>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="pending">Pending</option>
+                            <option value="cancelled">Cancelled</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                        <input type="date" class="form-control" id="booking-date-filter" style="width: auto;">
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Customer</th>
+                                <th>Room</th>
+                                <th>Date & Time</th>
+                                <th>Duration</th>
+                                <th>Guests</th>
+                                <th>Total</th>
+                                <th>Payment</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookings-tbody-full">
+                            <!-- Full bookings list will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Order Tracking Section -->
+            <div id="orders" class="admin-section" style="display: none;">
+                <div class="section-header">
+                    <h3>Order Tracking & Management</h3>
+                    <div class="filter-options">
+                        <select class="form-control" id="order-status-filter" style="width: auto;">
+                            <option value="all">All Orders</option>
+                            <option value="pending">Pending</option>
+                            <option value="preparing">Preparing</option>
+                            <option value="ready">Ready</option>
+                            <option value="delivered">Delivered</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="orders-grid">
+                    <div class="order-card">
+                        <div class="order-header">
+                            <h4>Order #BK001</h4>
+                            <span class="status-badge status-preparing">Preparing</span>
+                        </div>
+                        <div class="order-details">
+                            <p><strong>Customer:</strong> John Doe</p>
+                            <p><strong>Room:</strong> Standard Room (19:00-21:00)</p>
+                            <p><strong>Order Time:</strong> 18:45</p>
+                        </div>
+                        <div class="order-items">
+                            <h5>Food Items:</h5>
+                            <div class="order-item">
+                                <span>Chicken Wings</span>
+                                <select class="status-select" onchange="updateFoodStatus('BK001', 'Chicken Wings', this.value)">
+                                    <option value="pending">Pending</option>
+                                    <option value="preparing" selected>Preparing</option>
+                                    <option value="ready">Ready</option>
+                                    <option value="delivered">Delivered</option>
+                                </select>
+                            </div>
+                            <div class="order-item">
+                                <span>Soft Drinks</span>
+                                <select class="status-select" onchange="updateFoodStatus('BK001', 'Soft Drinks', this.value)">
+                                    <option value="pending">Pending</option>
+                                    <option value="preparing">Preparing</option>
+                                    <option value="ready" selected>Ready</option>
+                                    <option value="delivered">Delivered</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="order-customizations">
+                            <h5>Customizations:</h5>
+                            <p>Extra microphone, Birthday decorations</p>
+                        </div>
+                        <div class="order-actions">
+                            <button class="btn btn-primary btn-sm" onclick="updateOrderStatus('BK001', 'ready')">Mark as Ready</button>
+                            <button class="btn btn-success btn-sm" onclick="updateOrderStatus('BK001', 'delivered')">Mark Delivered</button>
+                        </div>
+                    </div>
+                    
+                    <div class="order-card">
+                        <div class="order-header">
+                            <h4>Order #BK002</h4>
+                            <span class="status-badge status-pending">Pending</span>
+                        </div>
+                        <div class="order-details">
+                            <p><strong>Customer:</strong> Jane Smith</p>
+                            <p><strong>Room:</strong> Premium Room (20:00-23:00)</p>
+                            <p><strong>Order Time:</strong> 19:30</p>
+                        </div>
+                        <div class="order-items">
+                            <h5>Food Items:</h5>
+                            <div class="order-item">
+                                <span>Margherita Pizza</span>
+                                <select class="status-select" onchange="updateFoodStatus('BK002', 'Margherita Pizza', this.value)">
+                                    <option value="pending" selected>Pending</option>
+                                    <option value="preparing">Preparing</option>
+                                    <option value="ready">Ready</option>
+                                    <option value="delivered">Delivered</option>
+                                </select>
+                            </div>
+                            <div class="order-item">
+                                <span>Fruit Smoothie</span>
+                                <select class="status-select" onchange="updateFoodStatus('BK002', 'Fruit Smoothie', this.value)">
+                                    <option value="pending" selected>Pending</option>
+                                    <option value="preparing">Preparing</option>
+                                    <option value="ready">Ready</option>
+                                    <option value="delivered">Delivered</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="order-customizations">
+                            <h5>Customizations:</h5>
+                            <p>None</p>
+                        </div>
+                        <div class="order-actions">
+                            <button class="btn btn-primary btn-sm" onclick="updateOrderStatus('BK002', 'preparing')">Start Preparation</button>
+                        </div>
+                    </div>
+                    
+                    <div class="order-card">
+                        <div class="order-header">
+                            <h4>Order #BK004</h4>
+                            <span class="status-badge status-ready">Ready</span>
+                        </div>
+                        <div class="order-details">
+                            <p><strong>Customer:</strong> Sarah Wilson</p>
+                            <p><strong>Room:</strong> Standard Room (21:00-23:00)</p>
+                            <p><strong>Order Time:</strong> 20:15</p>
+                        </div>
+                        <div class="order-items">
+                            <h5>Food Items:</h5>
+                            <div class="order-item">
+                                <span>Beef Burger</span>
+                                <span class="status-badge status-ready">Ready</span>
+                            </div>
+                            <div class="order-item">
+                                <span>French Fries</span>
+                                <span class="status-badge status-ready">Ready</span>
+                            </div>
+                        </div>
+                        <div class="order-customizations">
+                            <h5>Customizations:</h5>
+                            <p>Extra ketchup</p>
+                        </div>
+                        <div class="order-actions">
+                            <button class="btn btn-success btn-sm" onclick="updateOrderStatus('BK004', 'delivered')">Mark Delivered</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rooms Section -->
+            <div id="rooms" class="admin-section" style="display: none;">
+                <div class="section-header">
+                    <h3>Manage Rooms</h3>
+                    <button class="btn btn-primary" id="add-room-btn">
+                        <i class="fas fa-plus"></i> Add Room
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Capacity</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rooms-tbody">
+                            <!-- Rooms will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Customers Section -->
+            <div id="customers" class="admin-section" style="display: none;">
+                <div class="section-header">
+                    <h3>Manage Customers</h3>
+                    <div class="search-box">
+                        <input type="text" class="form-control" placeholder="Search customers..." id="customer-search">
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Bookings</th>
+                                <th>Status</th>
+                                <th>Join Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customers-tbody">
+                            <!-- Customers will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Reports Section -->
+            <div id="reports" class="admin-section" style="display: none;"> 
+                <div class="section-header">
+                    <h3>Reports & Analytics</h3>
+                    <div class="report-actions">
+                        <button class="btn btn-outline">Export CSV</button>
+                        <button class="btn btn-primary">Generate Report</button>
+                    </div>
+                </div>
+                <div class="report-content">
+                    <p>Reports and analytics will be displayed here.</p>
+                    <!-- Add charts and reports content -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Room Modal -->
+    <div class="modal" id="room-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Add New Room</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="room-form">
+                <div class="modal-body">
+                    <input type="hidden" id="room-id">
+                    <div class="form-group">
+                        <label for="room-name">Room Name</label>
+                        <input type="text" id="room-name" name="name" class="form-control" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="room-type">Room Type</label>
+                            <select id="room-type" name="type" class="form-control" required>
+                                <option value="standard">Standard</option>
+                                <option value="premium">Premium</option>
+                                <option value="vip">VIP Suite</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="room-capacity">Capacity</label>
+                            <input type="number" id="room-capacity" name="capacity" class="form-control" min="2" max="20" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="room-price">Price per Hour ($)</label>
+                            <input type="number" id="room-price" name="price" class="form-control" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="room-status">Status</label>
+                            <select id="room-status" name="status" class="form-control" required>
+                                <option value="available">Available</option>
+                                <option value="maintenance">Maintenance</option>
+                                <option value="unavailable">Unavailable</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="room-amenities">Amenities (comma separated)</label>
+                        <textarea id="room-amenities" name="amenities" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Room Images</label>
+                        <div class="room-images" id="room-images">
+                            <!-- Room images will be added here -->
+                        </div>
+                        <button type="button" class="btn btn-outline" onclick="addRoomImage()">
+                            <i class="fas fa-plus"></i> Add Image
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeAllModals()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Room</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Customer Details Modal -->
+    <div class="modal" id="customer-modal">
+        <div class="modal-content customer-details-modal">
+            <div class="modal-header">
+                <h3 id="customer-modal-title">Customer Details</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="customer-info">
+                    <div class="form-group">
+                        <label>Customer ID</label>
+                        <p id="customer-detail-id">C001</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Name</label>
+                        <p id="customer-detail-name">John Doe</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <p id="customer-detail-email">john@example.com</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <p id="customer-detail-phone">+1234567890</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <p id="customer-detail-status"><span class="customer-status-badge status-active">Active</span></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Total Bookings</label>
+                        <p id="customer-detail-bookings">5</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Join Date</label>
+                        <p id="customer-detail-join-date">2023-05-15</p>
+                    </div>
+                </div>
+                
+                <div class="customer-bookings">
+                    <h4>Booking History</h4>
+                    <div id="customer-bookings-list">
+                        <!-- Customer bookings will be populated here -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeAllModals()">Close</button>
+                <button type="button" class="btn btn-primary" onclick="editCustomerFromModal()">Edit Customer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Diva Karaoke</h3>
+                    <p>Your ultimate karaoke and dining experience. Book private rooms and enjoy delicious food delivered right to your room.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                          <li><a href="index.html">Home</a></li>
+                        <li><a href="booking.html">Book Now</a></li>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="booking-details.html">Booking</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Music Street, City</li>
+                        <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                        <li><i class="fas fa-envelope"></i> info@divakaraoke.com</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Opening Hours</h3>
+                    <ul>
+                        <li>Monday - Thursday: 2pm - 11pm</li>
+                        <li>Friday - Saturday: 2pm - 1am</li>
+                        <li>Sunday: 2pm - 10pm</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2024 Diva Karaoke. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Enhanced Admin Functions
+        function updateOrderStatus(bookingId, status) {
+            const booking = adminData.bookings.find(b => b.id === bookingId);
+            if (booking) {
+                booking.orderStatus = status;
+                alert(`Order ${bookingId} status updated to: ${status}`);
+                renderOrdersSection();
+            }
+        }
+
+        function updateFoodStatus(bookingId, foodName, status) {
+            const booking = adminData.bookings.find(b => b.id === bookingId);
+            if (booking && booking.food) {
+                const foodItem = booking.food.find(f => f.name === foodName);
+                if (foodItem) {
+                    foodItem.status = status;
+                }
+            }
+        }
+
+        function renderOrdersSection() {
+            const ordersGrid = document.querySelector('.orders-grid');
+            if (ordersGrid) {
+                // Filter orders based on status
+                const statusFilter = document.getElementById('order-status-filter').value;
+                let filteredOrders = adminData.bookings;
+                
+                if (statusFilter !== 'all') {
+                    filteredOrders = adminData.bookings.filter(booking => 
+                        booking.orderStatus === statusFilter
+                    );
+                }
+                
+                ordersGrid.innerHTML = filteredOrders.map(booking => `
+                    <div class="order-card">
+                        <div class="order-header">
+                            <h4>Order #${booking.id}</h4>
+                            <span class="status-badge status-${booking.orderStatus}">${booking.orderStatus}</span>
+                        </div>
+                        <div class="order-details">
+                            <p><strong>Customer:</strong> ${booking.customer}</p>
+                            <p><strong>Room:</strong> ${booking.room} (${booking.time})</p>
+                            <p><strong>Order Time:</strong> ${booking.time}</p>
+                        </div>
+                        <div class="order-items">
+                            <h5>Food Items:</h5>
+                            ${booking.food ? booking.food.map(item => `
+                                <div class="order-item">
+                                    <span>${item.name}</span>
+                                    <select class="status-select" onchange="updateFoodStatus('${booking.id}', '${item.name}', this.value)">
+                                        <option value="pending" ${item.status === 'pending' ? 'selected' : ''}>Pending</option>
+                                        <option value="preparing" ${item.status === 'preparing' ? 'selected' : ''}>Preparing</option>
+                                        <option value="ready" ${item.status === 'ready' ? 'selected' : ''}>Ready</option>
+                                        <option value="delivered" ${item.status === 'delivered' ? 'selected' : ''}>Delivered</option>
+                                    </select>
+                                </div>
+                            `).join('') : '<p>No food items</p>'}
+                        </div>
+                        <div class="order-customizations">
+                            <h5>Customizations:</h5>
+                            <p>${booking.customizations ? booking.customizations.join(', ') : 'None'}</p>
+                        </div>
+                        <div class="order-actions">
+                            ${booking.orderStatus === 'pending' ? 
+                                `<button class="btn btn-primary btn-sm" onclick="updateOrderStatus('${booking.id}', 'preparing')">Start Preparation</button>` : ''}
+                            ${booking.orderStatus === 'preparing' ? 
+                                `<button class="btn btn-primary btn-sm" onclick="updateOrderStatus('${booking.id}', 'ready')">Mark as Ready</button>` : ''}
+                            ${booking.orderStatus === 'ready' ? 
+                                `<button class="btn btn-success btn-sm" onclick="updateOrderStatus('${booking.id}', 'delivered')">Mark Delivered</button>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function viewCustomerDetails(customerId) {
+            const customer = adminData.customers.find(c => c.id === customerId);
+            if (customer) {
+                document.getElementById('customer-detail-id').textContent = customer.id;
+                document.getElementById('customer-detail-name').textContent = customer.name;
+                document.getElementById('customer-detail-email').textContent = customer.email;
+                document.getElementById('customer-detail-phone').textContent = customer.phone;
+                document.getElementById('customer-detail-status').innerHTML = 
+                    `<span class="customer-status-badge status-${customer.status}">${customer.status}</span>`;
+                document.getElementById('customer-detail-bookings').textContent = customer.bookings;
+                document.getElementById('customer-detail-join-date').textContent = customer.joinDate;
+                
+                // Load customer bookings
+                const customerBookings = adminData.bookings.filter(b => b.customerId === customerId);
+                const bookingsList = document.getElementById('customer-bookings-list');
+                bookingsList.innerHTML = customerBookings.map(booking => `
+                    <div class="customer-booking">
+                        <strong>${booking.id}</strong> - ${booking.room} on ${booking.date} at ${booking.time}
+                        <br>Status: ${booking.status} | Payment: ${booking.paymentStatus}
+                        ${booking.orderStatus ? `| Order: ${booking.orderStatus}` : ''}
+                    </div>
+                `).join('');
+                
+                document.getElementById('customer-modal').classList.add('active');
+            }
+        }
+
+        function editCustomerFromModal() {
+            const customerId = document.getElementById('customer-detail-id').textContent;
+            editCustomer(customerId);
+        }
+
+        function toggleCustomerStatus(customerId) {
+            const customer = adminData.customers.find(c => c.id === customerId);
+            if (customer) {
+                customer.status = customer.status === 'active' ? 'inactive' : 'active';
+                renderCustomersTable();
+                alert(`Customer ${customer.name} status updated to: ${customer.status}`);
+            }
+        }
+
+        // Initialize enhanced admin features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Order status filter
+            const orderStatusFilter = document.getElementById('order-status-filter');
+            if (orderStatusFilter) {
+                orderStatusFilter.addEventListener('change', renderOrdersSection);
+            }
+            
+            // Customer search
+            const customerSearch = document.getElementById('customer-search');
+            if (customerSearch) {
+                customerSearch.addEventListener('input', function() {
+                    renderCustomersTable(this.value);
+                });
+            }
+        });
+
+        function renderCustomersTable(searchTerm = '') {
+            const tbody = document.getElementById('customers-tbody');
+            if (!tbody) return;
+
+            let filteredCustomers = adminData.customers;
+            if (searchTerm) {
+                filteredCustomers = adminData.customers.filter(customer =>
+                    customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    customer.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    customer.phone.includes(searchTerm)
+                );
+            }
+
+            tbody.innerHTML = filteredCustomers.map(customer => `
+                <tr>
+                    <td>${customer.id}</td>
+                    <td>${customer.name}</td>
+                    <td>${customer.email}</td>
+                    <td>${customer.phone}</td>
+                    <td>${customer.bookings}</td>
+                    <td><span class="customer-status-badge status-${customer.status}">${customer.status}</span></td>
+                    <td>${customer.joinDate}</td>
+                    <td class="customer-actions">
+                        <button class="btn btn-primary btn-sm" onclick="viewCustomerDetails('${customer.id}')">View</button>
+                        <button class="btn btn-outline btn-sm" onclick="editCustomer('${customer.id}')">Edit</button>
+                        <button class="btn btn-outline btn-sm" onclick="toggleCustomerStatus('${customer.id}')">
+                            ${customer.status === 'active' ? 'Deactivate' : 'Activate'}
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
